@@ -1,6 +1,7 @@
 from datetime import datetime
-
+import os
 from flask import request
+from flask import send_from_directory
 
 from app import app
 from flask import render_template
@@ -48,6 +49,10 @@ def delete(todo_id):
     todos = Todo.objects.order_by('-time')
     return render_template("index.html", todos=todos, form=form)
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.')
